@@ -18,16 +18,21 @@ internal class Program
             opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        builder.Services.AddCors(option=>{
+            option.AddPolicy("CorsPolicy",policy=>{
+                policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+            });
+        });
+
         var app = builder.Build();
-
         // Configure the HTTP request pipeline.
-        // if (app.Environment.IsDevelopment())
-        // {
-        //     app.UseSwagger();
-        //     app.UseSwaggerUI();
-        // }
-
-        app.UseHttpsRedirection();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        app.UseCors("CorsPolicy");
+        //app.UseHttpsRedirection();
 
         app.UseAuthorization();
 
