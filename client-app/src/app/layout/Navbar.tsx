@@ -1,10 +1,11 @@
 import { Button, Container, Menu } from "semantic-ui-react";
+import { useStore } from "../stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Prop{
-    openForm:()=>void;
-}
 
-export default function Navbar({openForm}:Prop){
+// eslint-disable-next-line react-refresh/only-export-components
+export default observer(function Navbar(){
+    const {activityStore}=useStore();
     return(
         <Menu inverted fixed='top'>
             <Container>
@@ -14,9 +15,9 @@ export default function Navbar({openForm}:Prop){
                 </Menu.Item>
                 <Menu.Item name="Activities"/>
                 <Menu.Item>
-                    <Button onClick={openForm} positive content='Create Activity'></Button>
+                    <Button onClick={()=>activityStore.openForm()} positive content='Create Activity'></Button>
                 </Menu.Item>
             </Container>
         </Menu>
     )
-}
+})
