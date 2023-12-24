@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Activities;
 using Application.Core;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace API.Configuration
 {
@@ -21,6 +23,8 @@ namespace API.Configuration
             });
             service.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
             service.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            service.AddFluentValidationAutoValidation();
+            service.AddValidatorsFromAssemblyContaining<Create>();
         }
     }
 }

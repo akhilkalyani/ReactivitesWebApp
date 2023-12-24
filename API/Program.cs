@@ -1,4 +1,5 @@
 using API.Configuration;
+using API.Middleware;
 using Application.Activities;
 using Application.Core;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ internal class Program
         builder.Services.InstallServices(builder.Configuration,typeof(IServiceInstaller).Assembly);
         
         var app = builder.Build();
+        app.UseMiddleware<ExceptionMiddleware>();
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {

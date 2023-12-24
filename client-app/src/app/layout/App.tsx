@@ -4,11 +4,13 @@ import Navbar from './Navbar';
 import { observer } from 'mobx-react-lite';
 import { Outlet, useLocation } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
+import { ToastContainer } from 'react-toastify';
 // eslint-disable-next-line react-refresh/only-export-components
 function App() {
   const location=useLocation();
   return (
     <Fragment>
+      <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
       {location.pathname==='/'?<HomePage />: (
         <>
           <Navbar />
