@@ -3,7 +3,6 @@ import { Activity } from "../models/activitity";
 import { toast } from "react-toastify";
 import { router } from "../router/Router";
 import { store } from "../stores/store";
-import { configure } from "mobx";
 
 const sleep=(delay:number)=>{
     return new Promise((resolve)=>{
