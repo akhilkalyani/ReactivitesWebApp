@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API.Services;
 
 namespace API.Configuration
 {
@@ -9,7 +6,7 @@ namespace API.Configuration
     {
         public void Install(IServiceCollection service, IConfiguration configuration)
         {
-            //service.AddScoped<IUserRepository, UserRepository>();
+            service.AddScoped<TockenService>();
         }
     }
 }

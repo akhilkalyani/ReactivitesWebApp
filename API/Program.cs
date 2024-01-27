@@ -1,13 +1,13 @@
 using API.Configuration;
 using API.Middleware;
-using Application.Activities;
-using Application.Core;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 internal class Program
 {
-    private static  void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +26,7 @@ internal class Program
         }
         app.UseCors("CorsPolicy");
         //app.UseHttpsRedirection();
-
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
@@ -35,8 +35,9 @@ internal class Program
         try
         {
             var context = services.GetRequiredService<DataContext>();
-            context.Database.MigrateAsync();
-            Seed.SeedData(context);
+            var userManagerContext = services.GetRequiredService<UserManager<AppUser>>();
+            await context.Database.MigrateAsync();
+            await Seed.SeedData(context,userManagerContext);
         }
         catch (Exception ex)
         {

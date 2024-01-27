@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.Activities;
 using Application.Core;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace API.Configuration
 {
@@ -13,7 +11,11 @@ namespace API.Configuration
     {
         public void Install(IServiceCollection service, IConfiguration configuration)
         {
-            service.AddControllers();
+            service.AddControllers(opt=>
+            {
+                var policy=new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            });
             service.AddEndpointsApiExplorer();
             service.AddSwaggerGen();
             service.AddCors(option=>{
