@@ -68,7 +68,7 @@ export default observer(function ActivityForm(){
             onSubmit={values=>handleFormSubmit(values)}>
                 {({handleSubmit, isValid, isSubmitting, dirty})=>(
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
-                    <MyTextInput name='title' placeHolder='Title' />
+                    <MyTextInput name='title' placeholder='Title' />
                     <MyTextArea placeHolder='Description' name='description' rows={3}/>  
                     <MySelectInput options={categoryOptions} placeHolder='Category' name='category'/>  
                     <MyDateInput 
@@ -79,8 +79,8 @@ export default observer(function ActivityForm(){
                         dateFormat='MMMM d, yyyy h:mm aa'
                     />  
                     <Header content='Location Details' sub color='teal' />
-                    <MyTextInput placeHolder='City' name='city' />  
-                    <MyTextInput placeHolder='Venue'  name='venue'/>
+                    <MyTextInput placeholder='City' name='city' />  
+                    <MyTextInput placeholder='Venue'  name='venue'/>
                     <Button
                     disabled={isSubmitting || !dirty ||!isValid}
                     loading={loading}
