@@ -1,5 +1,6 @@
 using Application.Core;
-using Domain;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -8,18 +9,24 @@ namespace Application.Activities
 {
     public class List
     {
-        public class Query:IRequest<Result<List<Activity>>> {}
-        public class Handler : IRequestHandler<Query,Result<List<Activity>>>
+        public class Query:IRequest<Result<List<ActivityDTO>>> {}
+        public class Handler : IRequestHandler<Query,Result<List<ActivityDTO>>>
         {
             private readonly DataContext _dataContext;
-            public Handler(DataContext dataContext)
+            private readonly IMapper _mapper;
+            public Handler(DataContext dataContext,IMapper mapper)
             {
+                _mapper = mapper;
                 _dataContext = dataContext;
             }
 
-            public async Task<Result<List<Activity>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<ActivityDTO>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Activity>>.Success(await _dataContext.Activities.ToListAsync());
+                var activities = await _dataContext.Activities
+                .ProjectTo<ActivityDTO>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+                return Result<List<ActivityDTO>>.Success(activities);
             }
         }
     }
